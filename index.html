@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiberium — Elektro optické riešenia Bratislava</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F5F1;
+    --paper-dim:#E9EBE4;
+    --ink:#0D1B3E;
+    --ink-soft:#45506B;
+    --blue:#1E4FD6;
+    --cyan:#35C4EA;
+    --copper:#C97C4C;
+    --copper-dark:#A8613A;
+    --line:#D8DAD1;
+    --radius:14px;
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.01em;color:var(--ink);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--copper);display:inline-block;}
+  section{position:relative;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;border-radius:999px;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    border:1px solid transparent;cursor:pointer;transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .btn-primary{background:var(--ink);color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(13,27,62,.25);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent;}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+  .btn-copper{background:var(--copper);color:#fff;}
+  .btn-copper:hover{background:var(--copper-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(201,124,76,.3);}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ===== HEADER ===== */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(9,17,42,.75);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;max-width:var(--maxw);margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:.02em;color:#fff;}
+  .brand-mark{width:30px;height:30px;flex:none;}
+  .nav-links{display:flex;gap:32px;font-size:14.5px;font-weight:500;}
+  .nav-links a{position:relative;color:#AEB8D6;}
+  .nav-links a:hover{color:#fff;}
+  .nav-cta{display:flex;align-items:center;gap:18px;}
+  .nav-phone{font-family:'IBM Plex Mono',monospace;font-size:14px;color:#fff;}
+  .nav-cta .btn-primary{background:#fff;color:var(--ink);}
+  .nav-cta .btn-primary:hover{box-shadow:0 10px 24px rgba(0,0,0,.35);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .burger span{width:22px;height:2px;background:#fff;}
+
+  /* ===== HERO (dark, static 3D logo) ===== */
+  .hero{
+    padding:168px 0 110px;overflow:hidden;position:relative;
+    background:
+      radial-gradient(ellipse 620px 480px at 78% 18%, rgba(53,196,234,.20), transparent 60%),
+      radial-gradient(ellipse 560px 460px at 8% 92%, rgba(30,79,214,.22), transparent 55%),
+      linear-gradient(160deg,#0D1B3E 0%,#0A1533 60%,#081029 100%);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 900px 500px at 70% 10%, #000 0%, transparent 70%);
+            mask-image:radial-gradient(ellipse 900px 500px at 70% 10%, #000 0%, transparent 70%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:1;}
+  .hero .eyebrow{color:var(--cyan);}
+  .hero .eyebrow::before{background:var(--copper);}
+  .hero h1{font-size:clamp(34px,4.6vw,58px);line-height:1.06;margin:18px 0 22px;color:#fff;}
+  .hero h1 em{font-style:normal;color:var(--cyan);}
+  .hero p.lead{font-size:18px;color:#AEB8D6;max-width:480px;margin-bottom:34px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:46px;}
+  .hero .btn-primary{background:#fff;color:var(--ink);}
+  .hero .btn-ghost{border-color:rgba(255,255,255,.4);color:#fff;}
+  .hero .btn-ghost:hover{background:#fff;color:var(--ink);}
+  .stat-row{display:flex;gap:34px;flex-wrap:wrap;}
+  .stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:26px;color:#fff;}
+  .stat span{font-size:12.5px;color:#8891B3;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+
+  /* static "3D" logo stage */
+  .hero-art{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .logo-stage{position:relative;width:88%;max-width:420px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .logo3d-backdrop{
+    position:absolute;inset:0;margin:auto;width:112%;height:112%;border-radius:50%;
+    background:radial-gradient(circle at 34% 26%, rgba(53,196,234,.30), rgba(30,79,214,.10) 45%, transparent 72%);
+    filter:blur(6px);
+  }
+  .logo-stage svg{position:relative;z-index:1;width:100%;height:100%;filter:drop-shadow(0 30px 46px rgba(3,8,24,.55));}
+  .logo-ground{
+    position:absolute;left:50%;bottom:-6%;width:62%;height:34px;transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(0,0,0,.45), transparent 72%);
+    filter:blur(4px);z-index:0;
+  }
+  .hero-chip{
+    position:absolute;display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.22);
+    border-top-color:rgba(255,255,255,.4);
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    border-radius:14px;padding:12px 18px 12px 12px;
+    box-shadow:0 20px 40px rgba(3,8,24,.45), inset 0 1px 0 rgba(255,255,255,.18);
+    z-index:2;
+  }
+  .hero-chip .chip-icon{
+    width:34px;height:34px;border-radius:9px;flex:none;
+    background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.22);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .hero-chip .chip-icon svg{width:17px;height:17px;color:var(--cyan);}
+  .hero-chip .chip-text b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;color:#fff;letter-spacing:0;}
+  .hero-chip .chip-text span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#B7C0DA;}
+  .chip-1{top:6%;left:-6%;}
+  .chip-2{bottom:12%;right:-8%;}
+  @media (max-width:1080px){ .chip-1{left:-2%;} .chip-2{right:-2%;} }
+  @media (max-width:900px){
+    .hero-chip{position:static;margin-top:10px;width:fit-content;}
+    .hero-art{flex-direction:column;gap:12px;}
+    .logo-stage{max-width:300px;}
+  }
+
+  /* trust bar */
+  .trust{border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);background:#0A1533;}
+  .trust .pill{color:#AEB8D6;}
+  .trust .wrap{display:flex;flex-wrap:wrap;gap:14px;padding:20px 28px;justify-content:space-between;}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:8px;letter-spacing:.02em;
+  }
+  .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--copper);flex:none;}
+
+  /* ===== SERVICES ===== */
+  .services{
+    padding:120px 0 130px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 560px 420px at 88% 8%, rgba(53,196,234,.14), transparent 60%),
+      radial-gradient(ellipse 520px 420px at 4% 96%, rgba(30,79,214,.18), transparent 55%),
+      linear-gradient(180deg,#0A1533 0%,#0D1B3E 55%,#0A1533 100%);
+  }
+  .services::before{
+    content:"";position:absolute;inset:0;opacity:.4;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 800px 500px at 85% 0%, #000 0%, transparent 70%);
+            mask-image:radial-gradient(ellipse 800px 500px at 85% 0%, #000 0%, transparent 70%);
+  }
+  .services .wrap{position:relative;z-index:1;}
+  .services .eyebrow{color:var(--cyan);}
+  .services .eyebrow::before{background:var(--copper);}
+  .section-head{max-width:640px;margin-bottom:64px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,42px);margin-top:14px;color:#fff;}
+  .section-head p{color:#AEB8D6;font-size:16.5px;margin-top:14px;}
+
+  .service-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  .service-card{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.16);
+    border-top-color:rgba(255,255,255,.32);
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(3,8,24,.35), inset 0 1px 0 rgba(255,255,255,.14);
+    padding:32px 28px;min-height:230px;
+    display:flex;flex-direction:column;gap:14px;position:relative;
+    transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
+  }
+  .service-card:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.08);
+    box-shadow:0 26px 50px rgba(3,8,24,.45), inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  .service-icon-wrap{
+    width:46px;height:46px;border-radius:11px;flex:none;
+    background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.22);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .service-icon{width:22px;height:22px;color:var(--cyan);}
+  .service-card h3{font-size:19px;color:#fff;}
+  .service-card p{font-size:14.5px;color:#AEB8D6;}
+  .service-tag{
+    margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--copper);
+    text-transform:uppercase;letter-spacing:.08em;
+  }
+  @media (max-width:860px){ .service-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .service-grid{grid-template-columns:1fr;} }
+
+  /* ===== PROCESS ===== */
+  .process{padding:100px 0;background:var(--ink);color:var(--paper);}
+  .process .eyebrow{color:var(--cyan);}
+  .process .eyebrow::before{background:var(--cyan);}
+  .process h2{color:var(--paper);font-size:clamp(26px,3.2vw,38px);margin:14px 0 60px;max-width:600px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+  .steps::before{
+    content:"";position:absolute;top:19px;left:0;right:0;height:1px;
+    background:repeating-linear-gradient(to right,#3A4568 0,#3A4568 8px,transparent 8px,transparent 16px);
+  }
+  .step{position:relative;padding-right:20px;}
+  .step .num{
+    width:38px;height:38px;border-radius:50%;border:1.5px solid var(--cyan);
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;
+    background:var(--ink);color:var(--cyan);margin-bottom:22px;position:relative;z-index:1;
+  }
+  .step h4{color:var(--paper);font-size:17px;margin-bottom:8px;}
+  .step p{color:#A9B2CC;font-size:14px;}
+  @media (max-width:820px){
+    .steps{grid-template-columns:1fr 1fr;gap:36px 20px;}
+    .steps::before{display:none;}
+  }
+  @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
+
+  /* ===== TESTIMONIALS ===== */
+  .reviews{padding:120px 0;}
+  .review-track{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .review-card{
+    border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:#fff;
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .stars{color:var(--copper);font-size:14px;letter-spacing:2px;}
+  .review-card p{font-size:15.5px;color:var(--ink);line-height:1.6;}
+  .review-who{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:6px;border-top:1px solid var(--line);}
+  .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));flex:none;}
+  .review-who b{font-size:14px;display:block;}
+  .review-who span{font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+  @media (max-width:900px){ .review-track{grid-template-columns:1fr;} }
+
+  /* ===== GALLERY (placeholder) ===== */
+  .gallery{
+    padding:110px 0;position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 520px 420px at 92% 100%, rgba(53,196,234,.14), transparent 55%),
+      linear-gradient(180deg,#0A1533 0%,#0D1B3E 100%);
+  }
+  .gallery .eyebrow{color:var(--cyan);}
+  .gallery .eyebrow::before{background:var(--copper);}
+  .gallery .section-head p{color:#AEB8D6;}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .gallery-slot{
+    aspect-ratio:4/3;border-radius:16px;
+    background:rgba(255,255,255,.035);
+    border:1.5px dashed rgba(255,255,255,.22);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    text-align:center;padding:20px;
+  }
+  .gallery-slot svg{width:30px;height:30px;color:#5C6A96;}
+  .gallery-slot b{font-family:'Space Grotesk',sans-serif;font-size:13.5px;color:#C7CEE4;font-weight:500;}
+  .gallery-slot span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5C6A96;}
+  @media (max-width:860px){ .gallery-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .gallery-grid{grid-template-columns:1fr;} }
+
+  /* ===== FAQ ===== */
+  .faq{
+    padding:110px 0;position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 520px 420px at 6% 6%, rgba(30,79,214,.18), transparent 55%),
+      linear-gradient(180deg,#0D1B3E 0%,#0A1533 100%);
+  }
+  .faq .eyebrow{color:var(--cyan);}
+  .faq .eyebrow::before{background:var(--copper);}
+  .faq .section-head p{color:#AEB8D6;}
+  .faq-list{display:flex;flex-direction:column;gap:14px;max-width:760px;}
+  .faq-item{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.16);
+    border-top-color:rgba(255,255,255,.3);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-radius:14px;overflow:hidden;
+  }
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:20px 24px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:#fff;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary .plus{
+    flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.3);
+    display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:15px;
+    transition:transform .25s ease;
+  }
+  .faq-item[open] summary .plus{transform:rotate(45deg);}
+  .faq-item p{padding:0 24px 20px;font-size:14.5px;color:#AEB8D6;line-height:1.6;}
+  @media (max-width:900px){ .faq-list{max-width:none;} }
+
+  /* ===== STICKY CALL BAR (mobile) ===== */
+  .sticky-call{display:none;}
+  @media (max-width:900px){
+    .sticky-call{
+      display:flex;position:fixed;left:0;right:0;bottom:0;z-index:90;
+      background:rgba(9,17,42,.92);backdrop-filter:blur(14px);
+      border-top:1px solid rgba(255,255,255,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+      align-items:center;justify-content:center;gap:10px;
+    }
+    .sticky-call a{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;padding:14px;border-radius:12px;background:var(--copper);color:#fff;
+      font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    }
+    .sticky-call svg{width:18px;height:18px;}
+    body{padding-bottom:70px;}
+  }
+
+  /* ===== GDPR NOTE ===== */
+  .gdpr{padding:60px 0;border-top:1px solid var(--line);}
+  .gdpr h3{font-size:18px;margin-bottom:12px;}
+  .gdpr p{font-size:14px;color:var(--ink-soft);max-width:760px;margin-bottom:10px;}
+
+  /* ===== COOKIE BAR ===== */
+  .cookie-bar{
+    position:fixed;left:16px;right:16px;bottom:16px;z-index:200;
+    max-width:640px;margin:0 auto;
+    background:rgba(9,17,42,.92);backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.14);border-radius:16px;
+    padding:20px 22px;color:#fff;
+    display:flex;flex-direction:column;gap:14px;
+    box-shadow:0 24px 50px rgba(3,8,24,.5);
+    transform:translateY(140%);transition:transform .5s ease;
+  }
+  .cookie-bar.show{transform:translateY(0);}
+  .cookie-bar p{font-size:13.5px;color:#C7CEE4;line-height:1.55;}
+  .cookie-bar a{color:var(--cyan);text-decoration:underline;}
+  .cookie-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .cookie-actions button{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
+    padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;
+  }
+  .cookie-accept{background:#fff;color:var(--ink);}
+  .cookie-reject{background:transparent;color:#fff;border-color:rgba(255,255,255,.3);}
+
+  /* ===== CTA BANNER ===== */
+  .cta-banner{
+    margin:0 28px 120px;max-width:calc(var(--maxw) - 56px + 56px);
+    background:linear-gradient(120deg,var(--blue),#123099 65%,var(--ink));
+    border-radius:24px;padding:64px 48px;color:#fff;
+    display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;
+    position:relative;overflow:hidden;
+  }
+  .cta-banner::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .cta-banner::before{
+    content:"";position:absolute;right:20px;bottom:-90px;width:180px;height:180px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .cta-banner h2{color:#fff;font-size:clamp(24px,3vw,34px);max-width:480px;position:relative;}
+  .cta-banner .btn-copper{position:relative;}
+
+  /* ===== CONTACT ===== */
+  .contact{padding:20px 0 120px;}
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;}
+  .contact-info h2{font-size:clamp(26px,3vw,36px);margin:14px 0 20px;}
+  .contact-info p{color:var(--ink-soft);margin-bottom:32px;max-width:420px;}
+  .info-row{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--line);}
+  .info-row:last-of-type{border-bottom:1px solid var(--line);}
+  .info-row svg{width:20px;height:20px;color:var(--blue);flex:none;margin-top:2px;}
+  .info-row b{display:block;font-size:14.5px;}
+  .info-row span{font-size:13.5px;color:var(--ink-soft);}
+
+  form{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:36px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field.full{grid-column:1/-1;}
+  label{font-size:12.5px;font-family:'IBM Plex Mono',monospace;color:var(--ink-soft);letter-spacing:.03em;}
+  input,select,textarea{
+    border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-family:'Inter',sans-serif;
+    font-size:14.5px;background:var(--paper);color:var(--ink);outline:none;transition:border-color .2s ease;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--blue);}
+  textarea{resize:vertical;min-height:96px;}
+  .form-foot{display:flex;align-items:center;justify-content:space-between;margin-top:22px;gap:16px;flex-wrap:wrap;}
+  .form-note{font-size:12px;color:var(--ink-soft);max-width:260px;}
+  .toast{
+    margin-top:16px;padding:12px 16px;border-radius:8px;background:#EAF6EE;color:#1F6B3A;
+    font-size:14px;display:none;
+  }
+  .toast.show{display:block;}
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--line);padding:48px 0 34px;}
+  .foot-grid{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px;}
+  .foot-links{display:flex;gap:26px;font-size:14px;color:var(--ink-soft);flex-wrap:wrap;}
+  .foot-bottom{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .burger{display:flex;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{max-width:340px;margin:0 auto;order:-1;}
+    .contact-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    .cta-banner{flex-direction:column;text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="34" stroke="url(#g1)" stroke-width="5"/>
+        <path d="M25 26 A26 26 0 1 1 25 74" stroke="url(#g1)" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+        <circle cx="50" cy="50" r="10" stroke="url(#g1)" stroke-width="4.5"/>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="100" y2="100"><stop offset="0%" stop-color="#1E4FD6"/><stop offset="100%" stop-color="#35C4EA"/></linearGradient></defs>
+      </svg>
+      FIBERIUM
+    </a>
+    <div class="nav-links">
+      <a href="#sluzby">Služby</a>
+      <a href="#proces">Ako pracujeme</a>
+      <a href="#recenzie">Referencie</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <div class="nav-cta">
+      <span class="nav-phone">+421 900 000 000</span>
+      <a href="#kontakt" class="btn btn-primary" style="padding:10px 20px;font-size:13.5px;">Konzultácia</a>
+    </div>
+    <button class="burger" aria-label="Menu" id="burgerBtn"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Elektro · Optické riešenia · Bratislava</span>
+        <h1>Elektroinštalácie, na ktoré sa <em>váš dom môže spoľahnúť</em></h1>
+        <p class="lead">Rodinné domy, rekonštrukcie, revízie a smart home riešenia — od projektu po odovzdanie. Robíme elektrinu tak, aby ste na ňu ďalších 20 rokov nemuseli myslieť.</p>
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn btn-primary">Nezáväzná konzultácia →</a>
+          <a href="#sluzby" class="btn btn-ghost">Pozrieť služby</a>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><b>15+</b><span>ROKOV PRAXE</span></div>
+          <div class="stat"><b>500+</b><span>DOKONČENÝCH ZÁKAZIEK</span></div>
+          <div class="stat"><b>24h</b><span>REAKCIA NA REVÍZIU</span></div>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="hero-chip chip-1">
+          <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+          <span class="chip-text"><b>Revízia do 24 h</b><span>Rýchla reakcia</span></span>
+        </div>
+        <div class="logo-stage">
+          <div class="logo3d-backdrop"></div>
+          <div class="logo-ground"></div>
+          <svg viewBox="0 0 400 400">
+            <defs>
+              <linearGradient id="ring3d" x1="10%" y1="0%" x2="90%" y2="100%">
+                <stop offset="0%" stop-color="#4FD9F7"/>
+                <stop offset="45%" stop-color="#2E7FE8"/>
+                <stop offset="100%" stop-color="#1531A8"/>
+              </linearGradient>
+              <linearGradient id="ring3dSoft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2E7FE8"/>
+                <stop offset="100%" stop-color="#183AA8"/>
+              </linearGradient>
+              <radialGradient id="sphereSheen" cx="35%" cy="28%" r="70%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity=".55"/>
+                <stop offset="35%" stop-color="#ffffff" stop-opacity=".08"/>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="innerShadow" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#020714" flood-opacity=".55"/>
+              </filter>
+            </defs>
+
+            <!-- outer glass disc for volume -->
+            <circle cx="200" cy="200" r="160" fill="url(#sphereSheen)"/>
+
+            <!-- main ring -->
+            <g filter="url(#innerShadow)">
+              <circle cx="200" cy="200" r="120" fill="none" stroke="url(#ring3d)" stroke-width="20" stroke-linecap="round"/>
+              <path d="M120 132 A92 92 0 1 1 120 268" fill="none" stroke="url(#ring3dSoft)" stroke-width="20" stroke-linecap="round" opacity=".92"/>
+              <circle cx="200" cy="200" r="36" fill="none" stroke="url(#ring3d)" stroke-width="17" stroke-linecap="round"/>
+            </g>
+
+            <!-- glossy highlight arc on top of the main ring -->
+            <path d="M120 150 A80 80 0 0 1 260 150" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+          </svg>
+        </div>
+        <div class="hero-chip chip-2">
+          <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></span>
+          <span class="chip-text"><b>500+ realizácií</b><span>Bratislava a okolie</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust">
+    <div class="wrap">
+      <span class="pill">Oprávnenie SEZ‑KB</span>
+      <span class="pill">Poistená zodpovednosť za škodu</span>
+      <span class="pill">Revízne správy do 5 dní</span>
+      <span class="pill">Bratislava a okolie 40 km</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="sluzby">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Čo robíme</span>
+        <h2>Elektrina od projektu po poslednú zásuvku</h2>
+        <p>Pracujeme pre rodinné domy, byty aj menšie prevádzky — či staviate nanovo, rekonštruujete, alebo len potrebujete platnú revíziu.</p>
+      </div>
+
+      <div class="service-grid reveal">
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12l4-8h10l4 8-4 8H7l-4-8z"/><path d="M12 8v8M9 11h6"/></svg></span>
+          <h3>Elektroinštalácie rodinných domov</h3>
+          <p>Kompletné silnoprúdové aj slaboprúdové rozvody pre novostavby — od hlavného rozvádzača po poslednú svetelnú vetvu.</p>
+          <span class="service-tag">Novostavby</span>
+        </div>
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+          <h3>Revízie elektrických zariadení</h3>
+          <p>Pravidelné aj mimoriadne revízie bytov, domov a spoločných priestorov, vrátane odstránenia zistených nedostatkov.</p>
+          <span class="service-tag">Revízne správy</span>
+        </div>
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19h16M4 15l4-4 3 3 5-6 4 5"/></svg></span>
+          <h3>Projekčná činnosť</h3>
+          <p>Elektroprojekty a technická dokumentácia pre stavebné povolenie, vrátane výpočtu istenia a bleskozvodu.</p>
+          <span class="service-tag">Dokumentácia</span>
+        </div>
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></span>
+          <h3>Rekonštrukcie rozvodov</h3>
+          <p>Výmena starých hliníkových rozvodov, modernizácia rozvádzačov a istenia v bytoch aj rodinných domoch.</p>
+          <span class="service-tag">Staršie budovy</span>
+        </div>
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
+          <h3>Smart home riešenia</h3>
+          <p>Inteligentné ovládanie svetiel, žalúzií a kúrenia — systémy, ktoré vie ovládať celá rodina, nielen ten, kto ich naprogramoval.</p>
+          <span class="service-tag">KNX / smart</span>
+        </div>
+        <div class="service-card">
+          <span class="service-icon-wrap"><svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3v3M12 18v3"/></svg></span>
+          <h3>Optické a dátové siete</h3>
+          <p>Domáce aj firemné dátové rozvody, optické prípojky a štruktúrovaná kabeláž pripravená na roky dopredu.</p>
+          <span class="service-tag">FTTH / LAN</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY (placeholder pre budúce fotky realizácií) -->
+  <section class="gallery" id="realizacie">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Realizácie</span>
+        <h2>Naša práca — priestor pre fotky</h2>
+        <p>Túto sekciu priebežne napĺňame fotkami z reálnych zákaziek. Čoskoro tu nájdete ukážky dokončených elektroinštalácií, revízií aj rekonštrukcií.</p>
+      </div>
+      <div class="gallery-grid reveal">
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Rodinný dom</b><span>Foto pribudne</span>
+        </div>
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Revízia</b><span>Foto pribudne</span>
+        </div>
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Rekonštrukcia</b><span>Foto pribudne</span>
+        </div>
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Smart home</b><span>Foto pribudne</span>
+        </div>
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Rozvádzač</b><span>Foto pribudne</span>
+        </div>
+        <div class="gallery-slot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+          <b>Optická sieť</b><span>Foto pribudne</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="proces">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow">Priebeh spolupráce</span>
+        <h2>Štyri kroky od telefonátu po revíznu správu</h2>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <div class="num">01</div>
+          <h4>Konzultácia a obhliadka</h4>
+          <p>Prídeme na miesto, prejdeme si zadanie a navrhneme riešenie na mieru.</p>
+        </div>
+        <div class="step">
+          <div class="num">02</div>
+          <h4>Projekt a rozpočet</h4>
+          <p>Pripravíme technický návrh, presnú cenu a harmonogram prác.</p>
+        </div>
+        <div class="step">
+          <div class="num">03</div>
+          <h4>Realizácia</h4>
+          <p>Inštaláciu robí vlastný tím, priebežne konzultujeme každú zmenu.</p>
+        </div>
+        <div class="step">
+          <div class="num">04</div>
+          <h4>Revízia a odovzdanie</h4>
+          <p>Odovzdáme funkčné dielo spolu s revíznou správou a zárukou.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" id="recenzie">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Referencie</span>
+        <h2>Čo hovoria klienti z Bratislavy a okolia</h2>
+      </div>
+      <div class="review-track reveal">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Robili nám kompletnú elektriku v novostavbe v Rači. Dodržali termín aj rozpočet a revíziu mali hotovú do týždňa.</p>
+          <div class="review-who">
+            <div class="avatar"></div>
+            <div><b>Martin K.</b><span>Rača, novostavba</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Vymenili nám starý hliníkový rozvod v byte v Petržalke bez zbytočného búrania. Presne vysvetlili, čo a prečo robia.</p>
+          <div class="review-who">
+            <div class="avatar"></div>
+            <div><b>Zuzana R.</b><span>Petržalka, rekonštrukcia</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>Nastavili nám smart ovládanie svetiel a kúrenia v celom dome. Aplikáciu ovláda aj naša 70‑ročná mama bez problémov.</p>
+          <div class="review-who">
+            <div class="avatar"></div>
+            <div><b>Peter D.</b><span>Dúbravka, smart home</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Časté otázky</span>
+        <h2>Čo vás asi zaujíma</h2>
+        <p>Odpovede na otázky, ktoré nám klienti pri elektroinštaláciách a revíziách kladú najčastejšie.</p>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Koľko stojí revízia elektrickej inštalácie?<span class="plus">+</span></summary>
+          <p>Cena revízie závisí od veľkosti a typu objektu (byt, rodinný dom, spoločné priestory) aj od toho, či ide o pravidelnú alebo mimoriadnu revíziu. Presnú cenu vieme povedať po krátkej konzultácii alebo obhliadke.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Ako dlho trvá elektroinštalácia rodinného domu?<span class="plus">+</span></summary>
+          <p>Pri bežnom rodinnom dome sa hrubá elektroinštalácia zvyčajne realizuje v priebehu niekoľkých týždňov, presný harmonogram vždy dohodneme vopred podľa rozsahu prác a fázy stavby.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Robíte aj urgentné zásahy mimo bežnej pracovnej doby?<span class="plus">+</span></summary>
+          <p>Áno, pri akútnych poruchách sa snažíme reagovať čo najskôr — kontaktujte nás telefonicky a dohodneme najbližší možný termín.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Potrebujem na rekonštrukciu elektroinštalácie stavebné povolenie?<span class="plus">+</span></summary>
+          <p>Pri bežnej výmene rozvodov v byte alebo dome zväčša stavebné povolenie netreba, pri väčších zásahoch do konštrukcie to však môže byť potrebné. Radi to s vami prekonzultujeme podľa konkrétneho prípadu.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Aký je rozdiel medzi revíziou a projektovou dokumentáciou?<span class="plus">+</span></summary>
+          <p>Revízia overuje bezpečnosť už existujúcej elektroinštalácie, kým projektová dokumentácia je návrh a technický podklad pre novú inštaláciu alebo rekonštrukciu, potrebný napríklad pre stavebné povolenie.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Pôsobíte aj mimo Bratislavy?<span class="plus">+</span></summary>
+          <p>Áno, zákazky realizujeme v Bratislave aj v okruhu približne 40 km od mesta. Pri väčších projektoch je možné dohodnúť sa aj individuálne.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="wrap">
+    <div class="cta-banner reveal">
+      <h2>Potrebujete revíziu, projekt alebo kompletnú elektroinštaláciu?</h2>
+      <a href="#kontakt" class="btn btn-copper">Napíšte nám →</a>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="kontakt">
+    <div class="wrap contact-grid">
+      <div class="contact-info reveal">
+        <span class="eyebrow">Kontakt</span>
+        <h2>Poďme prebrať váš projekt</h2>
+        <p>Napíšte pár slov o tom, čo potrebujete — ozveme sa vám väčšinou do 24 hodín.</p>
+
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
+          <div><b>+421 900 000 000</b><span>Po–Pia, 8:00–17:00</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          <div><b>info@fiberium.sk</b><span>Odpovieme do 1 pracovného dňa</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div><b>Bratislava</b><span>Zákazky v okruhu cca 40 km</span></div>
+        </div>
+      </div>
+
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="meno">Meno a priezvisko</label>
+            <input id="meno" name="meno" type="text" placeholder="Jana Nováková" required>
+          </div>
+          <div class="field">
+            <label for="telefon">Telefón</label>
+            <input id="telefon" name="telefon" type="tel" placeholder="+421 9__ ___ ___" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">E‑mail</label>
+            <input id="email" name="email" type="email" placeholder="jana@priklad.sk" required>
+          </div>
+          <div class="field">
+            <label for="sluzba">Mám záujem o</label>
+            <select id="sluzba" name="sluzba">
+              <option>Elektroinštalácia rodinného domu</option>
+              <option>Revízia</option>
+              <option>Projekčná činnosť</option>
+              <option>Rekonštrukcia rozvodov</option>
+              <option>Smart home</option>
+              <option>Optické / dátové siete</option>
+              <option>Iné</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field full">
+            <label for="sprava">Správa</label>
+            <textarea id="sprava" name="sprava" placeholder="Krátko opíšte, o čo ide a kde sa nachádzate…"></textarea>
+          </div>
+        </div>
+        <div class="form-foot">
+          <span class="form-note">Odoslaním súhlasíte so spracovaním údajov za účelom vybavenia dopytu.</span>
+          <button type="submit" class="btn btn-primary">Odoslať dopyt</button>
+        </div>
+        <div class="toast" id="formToast">Ďakujeme! Ozveme sa vám čo najskôr.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- GDPR / OCHRANA OSOBNÝCH ÚDAJOV -->
+  <section class="gdpr" id="gdpr">
+    <div class="wrap">
+      <h3>Ochrana osobných údajov</h3>
+      <p>Údaje z kontaktného formulára (meno, telefón, e‑mail, obsah správy) spracúvame výhradne za účelom vybavenia vášho dopytu a prípadnej následnej komunikácie súvisiacej s realizáciou zákazky. Údaje neposkytujeme tretím stranám na marketingové účely.</p>
+      <p>Máte právo na prístup k svojim údajom, ich opravu, výmaz alebo obmedzenie spracúvania — v prípade záujmu nás kontaktujte na e‑maile uvedenom v sekcii Kontakt.</p>
+      <p style="font-size:12.5px;color:#8891A8;">Toto znenie je orientačné a pred nasadením stránky odporúčame nechať si ho skontrolovať právnikom / GDPR špecialistom, aby presne zodpovedalo reálnemu spracúvaniu údajov vo firme.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- STICKY CALL BAR — mobil -->
+<div class="sticky-call">
+  <a href="tel:+421900000000">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
+    Zavolať +421 900 000 000
+  </a>
+</div>
+
+<!-- COOKIE LIŠTA -->
+<div class="cookie-bar" id="cookieBar">
+  <p>Táto stránka používa cookies na zlepšenie fungovania a meranie návštevnosti. Viac v sekcii <a href="#gdpr">Ochrana osobných údajov</a>.</p>
+  <div class="cookie-actions">
+    <button class="cookie-accept" id="cookieAccept">Súhlasím</button>
+    <button class="cookie-reject" id="cookieReject">Odmietnuť</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a href="#top" class="brand" style="font-size:18px;">
+        <svg class="brand-mark" viewBox="0 0 100 100" fill="none" width="26" height="26">
+          <circle cx="50" cy="50" r="34" stroke="url(#g2)" stroke-width="5"/>
+          <path d="M25 26 A26 26 0 1 1 25 74" stroke="url(#g2)" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+          <circle cx="50" cy="50" r="10" stroke="url(#g2)" stroke-width="4.5"/>
+          <defs><linearGradient id="g2" x1="0" y1="0" x2="100" y2="100"><stop offset="0%" stop-color="#1E4FD6"/><stop offset="100%" stop-color="#35C4EA"/></linearGradient></defs>
+        </svg>
+        FIBERIUM
+      </a>
+      <div class="foot-links">
+        <a href="#sluzby">Služby</a>
+        <a href="#realizacie">Realizácie</a>
+        <a href="#recenzie">Referencie</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#gdpr">Ochrana osobných údajov</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Fiberium s. r. o. — Elektro optické riešenia</span>
+      <span>IČO: 00 000 000 · Bratislava, Slovensko</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // mobile menu (simple toggle -> scrolls to sections, links already anchor)
+  const burger = document.getElementById('burgerBtn');
+  const navLinks = document.querySelector('.nav-links');
+  burger.addEventListener('click', ()=>{
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.left = '0';
+    navLinks.style.right = '0';
+    navLinks.style.background = 'rgba(9,17,42,.97)';
+    navLinks.style.padding = '20px 28px';
+    navLinks.style.borderBottom = '1px solid rgba(255,255,255,.1)';
+    navLinks.style.gap = '16px';
+  });
+
+  // contact form (front-end only demo — no backend wired up)
+  const form = document.getElementById('contactForm');
+  const toast = document.getElementById('formToast');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    toast.classList.add('show');
+    form.reset();
+    setTimeout(()=>toast.classList.remove('show'), 6000);
+  });
+
+  // cookie consent bar
+  const cookieBar = document.getElementById('cookieBar');
+  const cookieChoice = localStorage.getItem('fiberium_cookie_consent');
+  if(!cookieChoice){
+    setTimeout(()=>cookieBar.classList.add('show'), 800);
+  }
+  document.getElementById('cookieAccept').addEventListener('click', ()=>{
+    localStorage.setItem('fiberium_cookie_consent','accepted');
+    cookieBar.classList.remove('show');
+  });
+  document.getElementById('cookieReject').addEventListener('click', ()=>{
+    localStorage.setItem('fiberium_cookie_consent','rejected');
+    cookieBar.classList.remove('show');
+  });
+</script>
+
+</body>
+</html>
