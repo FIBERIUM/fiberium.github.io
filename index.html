@@ -254,18 +254,36 @@
   @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
 
   /* ===== TESTIMONIALS ===== */
-  .reviews{padding:120px 0;}
-  .review-track{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .reviews{
+    padding:120px 0;position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 540px 420px at 10% 4%, rgba(53,196,234,.14), transparent 55%),
+      radial-gradient(ellipse 520px 420px at 94% 96%, rgba(30,79,214,.18), transparent 55%),
+      linear-gradient(180deg,#0A1533 0%,#0D1B3E 55%,#0A1533 100%);
+  }
+  .reviews .wrap{position:relative;z-index:1;}
+  .reviews .eyebrow{color:var(--cyan);}
+  .reviews .eyebrow::before{background:var(--copper);}
+  .reviews .section-head p{color:#AEB8D6;}
+  .review-track{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   .review-card{
-    border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:#fff;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.16);
+    border-top-color:rgba(255,255,255,.32);
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(3,8,24,.35), inset 0 1px 0 rgba(255,255,255,.14);
+    padding:28px;
     display:flex;flex-direction:column;gap:16px;
   }
   .stars{color:var(--copper);font-size:14px;letter-spacing:2px;}
-  .review-card p{font-size:15.5px;color:var(--ink);line-height:1.6;}
-  .review-who{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:6px;border-top:1px solid var(--line);}
+  .stars .empty{color:#3A4568;}
+  .review-card p{font-size:15px;color:#C7CEE4;line-height:1.6;}
+  .review-who{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:6px;border-top:1px solid rgba(255,255,255,.12);}
   .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));flex:none;}
-  .review-who b{font-size:14px;display:block;}
-  .review-who span{font-size:12.5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+  .review-who b{font-size:14px;display:block;color:#fff;}
+  .review-who span{font-size:12.5px;color:#8891B3;font-family:'IBM Plex Mono',monospace;}
   @media (max-width:900px){ .review-track{grid-template-columns:1fr;} }
 
   /* ===== GALLERY (placeholder) ===== */
@@ -459,7 +477,7 @@
       <a href="#kontakt">Kontakt</a>
     </div>
     <div class="nav-cta">
-      <span class="nav-phone">+421 900 000 000</span>
+      <span class="nav-phone">+421 949 859 607</span>
       <a href="#kontakt" class="btn btn-primary" style="padding:10px 20px;font-size:13.5px;">Konzultácia</a>
     </div>
     <button class="burger" aria-label="Menu" id="burgerBtn"><span></span><span></span><span></span></button>
@@ -480,8 +498,8 @@
           <a href="#sluzby" class="btn btn-ghost">Pozrieť služby</a>
         </div>
         <div class="stat-row">
-          <div class="stat"><b>15+</b><span>ROKOV PRAXE</span></div>
-          <div class="stat"><b>500+</b><span>DOKONČENÝCH ZÁKAZIEK</span></div>
+          <div class="stat"><b>5+</b><span>ROKOV PRAXE</span></div>
+          <div class="stat"><b>50+</b><span>DOKONČENÝCH ZÁKAZIEK</span></div>
           <div class="stat"><b>24h</b><span>REAKCIA NA REVÍZIU</span></div>
         </div>
       </div>
@@ -531,7 +549,7 @@
         </div>
         <div class="hero-chip chip-2">
           <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></span>
-          <span class="chip-text"><b>500+ realizácií</b><span>Bratislava a okolie</span></span>
+          <span class="chip-text"><b>50+ realizácií</b><span>Bratislava a okolie</span></span>
         </div>
       </div>
     </div>
@@ -600,9 +618,9 @@
   <section class="gallery" id="realizacie">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="eyebrow">Realizácie</span>
-        <h2>Naša práca — priestor pre fotky</h2>
-        <p>Túto sekciu priebežne napĺňame fotkami z reálnych zákaziek. Čoskoro tu nájdete ukážky dokončených elektroinštalácií, revízií aj rekonštrukcií.</p>
+        <span class="eyebrow">Naša práca</span>
+        <h2>Naša práca</h2>
+        <p>Ukážky z realizovaných zákaziek — elektroinštalácie, rekonštrukcie aj revízie. Táto sekcia sa priebežne dopĺňa novými fotkami.</p>
       </div>
       <div class="gallery-grid reveal">
         <div class="gallery-slot">
@@ -690,8 +708,8 @@
           </div>
         </div>
         <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>Nastavili nám smart ovládanie svetiel a kúrenia v celom dome. Aplikáciu ovláda aj naša 70‑ročná mama bez problémov.</p>
+          <div class="stars">★★★★<span class="empty">★</span></div>
+          <p>Smart ovládanie svetiel a kúrenia funguje presne tak, ako sme chceli. Termín sa nám o pár dní posunul kvôli dodávke materiálu, inak sme spokojní.</p>
           <div class="review-who">
             <div class="avatar"></div>
             <div><b>Peter D.</b><span>Dúbravka, smart home</span></div>
@@ -756,11 +774,11 @@
 
         <div class="info-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
-          <div><b>+421 900 000 000</b><span>Po–Pia, 8:00–17:00</span></div>
+          <div><b>+421 949 859 607</b><span>Po–Pia, 8:00–17:00</span></div>
         </div>
         <div class="info-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
-          <div><b>info@fiberium.sk</b><span>Odpovieme do 1 pracovného dňa</span></div>
+          <div><b>fiberiumelektro@gmail.com</b><span>Odpovieme do 1 pracovného dňa</span></div>
         </div>
         <div class="info-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
@@ -826,9 +844,9 @@
 
 <!-- STICKY CALL BAR — mobil -->
 <div class="sticky-call">
-  <a href="tel:+421900000000">
+  <a href="tel:+421949859607">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
-    Zavolať +421 900 000 000
+    Zavolať +421 949 859 607
   </a>
 </div>
 
@@ -863,8 +881,8 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Fiberium s. r. o. — Elektro optické riešenia</span>
-      <span>IČO: 00 000 000 · Bratislava, Slovensko</span>
+      <span>© 2026 Fiberium — Elektro optické riešenia</span>
+      <span>Bratislava a okolie</span>
     </div>
   </div>
 </footer>
